@@ -10,6 +10,7 @@ export default class CookieConsentApi extends EventEmitter
         const defaultConf = {
             cookieName: 'ccm',
             cookieDuration: 365,
+            cookieDomain: null,
             services: []
         };
 
@@ -28,7 +29,7 @@ export default class CookieConsentApi extends EventEmitter
 
     reset()
     {
-        Cookies.remove(this.conf.cookieName);
+        Cookies.remove(this.conf.cookieName, {domain: this.conf.cookieDomain});
         this.updateView();
         this.emit('clear');
     }
@@ -37,7 +38,10 @@ export default class CookieConsentApi extends EventEmitter
     {
         let cookieServices = {};
         this.conf.services.forEach(service => cookieServices[service] = true);
-        Cookies.set(this.conf.cookieName, cookieServices, {duration: this.conf.cookieDuration});
+        Cookies.set(this.conf.cookieName, cookieServices, {
+            duration: this.conf.cookieDuration,
+            domain: this.conf.cookieDomain
+        });
         this.updateView();
         this.emit('acceptAll');
     }
@@ -46,7 +50,10 @@ export default class CookieConsentApi extends EventEmitter
     {
         let cookieServices = this.getCookieServices();
         cookieServices[service] = true;
-        Cookies.set(this.conf.cookieName, cookieServices, {duration: this.conf.cookieDuration});
+        Cookies.set(this.conf.cookieName, cookieServices, {
+            duration: this.conf.cookieDuration,
+            domain: this.conf.cookieDomain
+        });
         this.updateView();
         this.emit('accept', service);
     }
@@ -55,7 +62,10 @@ export default class CookieConsentApi extends EventEmitter
     {
         let cookieServices = this.getCookieServices();
         cookieServices[service] = false;
-        Cookies.set(this.conf.cookieName, cookieServices, {duration: this.conf.cookieDuration});
+        Cookies.set(this.conf.cookieName, cookieServices, {
+            duration: this.conf.cookieDuration,
+            domain: this.conf.cookieDomain
+        });
         this.updateView();
         this.emit('refuse', service);
     }

@@ -1,7 +1,5 @@
 # cookie-consent-api
 A flexible JS API to manage cookie consent for GDPR
-
-## Features and Usage
 > This is a work in progress, it has not been tested in production
 
 ### Usage
@@ -10,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const cookieConsentApi = new CookieConsentApi({
         cookieName: 'ccm', // optional
         cookieDuration: 365, // optional
+        cookieDomain: 'localhost', // optional
         services: ['googleAnalytics', 'googleMaps', 'youtube'] // required   
     });
     cookieConsentApi.init();
@@ -17,11 +16,12 @@ document.addEventListener('DOMContentLoaded', function() {
 ```
 
 ### Actions
-- cookieConsentApi.accept('serviceName');
-- cookieConsentApi.refuse('serviceName');
-- cookieConsentApi.acceptAll();
-- cookieConsentApi.clear();
-
+```javascript
+cookieConsentApi.accept('serviceName');
+cookieConsentApi.refuse('serviceName');
+cookieConsentApi.acceptAll();
+cookieConsentApi.clear();
+```
 
 ### Events:
 Available events : `accept`, `refuse`, `acceptAll`, `init`, `reset`

@@ -2,6 +2,7 @@ require('webpack');
 
 var path = require('path');
 var HTMLWebpackPlugin = require('html-webpack-plugin');
+var MinifyPlugin = require("babel-minify-webpack-plugin");
 var isProd = process.env.NODE_ENV === 'production';
 
 module.exports = {
@@ -29,8 +30,15 @@ module.exports = {
     },
 
     plugins: isProd
-        ? []
-        : [new HTMLWebpackPlugin()]
+        ? [
+            new MinifyPlugin({}, {comments: false})
+        ]
+        : [
+            new HTMLWebpackPlugin({
+                template: path.resolve(__dirname, 'index.html'),
+                filename: 'index.html'
+            })
+        ]
     ,
 
     devServer: {
@@ -38,5 +46,5 @@ module.exports = {
         port: 3000
     },
 
-    devtool: isProd ? 'source-map' : 'cheap-module-eval-source-map'
+    devtool: isProd ? '' : 'cheap-module-eval-source-map'
 };
