@@ -2,6 +2,10 @@
 A flexible JS API to manage cookie consent for GDPR
 > This is a work in progress, it has not been tested in production
 
+### TODO
+- Add event 'configuredAll' when user accepted/refused all services
+- Better docs (place script in head to replace content fast)
+
 ### Usage
 ```javascript
 document.addEventListener('DOMContentLoaded', function() {
@@ -23,7 +27,7 @@ cookieConsent.acceptAll();
 cookieConsent.clear();
 ```
 
-### Events:
+### Events
 Available events : `accept`, `refuse`, `acceptAll`, `init`, `reset`
 ```javascript
 cookieConsent.on('accept', function(service) {
@@ -31,7 +35,7 @@ cookieConsent.on('accept', function(service) {
 });
 ```
 
-### Automatic insert / remove dom element :
+### Automatic content switch if consent
 ```html 
 <div data-cookie-consent="googleAnalytics">
     <!--if-consent
