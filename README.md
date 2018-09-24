@@ -2,13 +2,11 @@
 A flexible JS API to manage cookie consent for GDPR
 > This is a work in progress, it has not been tested in production
 
-### TODO
-- Add event 'configuredAll' when user accepted/refused all services
-- Better docs (place script in head to replace content fast)
-
 ### Usage
-```javascript
-document.addEventListener('DOMContentLoaded', function() {
+Place at end of body before other scripts
+```html
+<script src="./cookie-consent-api.js"></script>
+<script>
     const cookieConsent = new CookieConsentApi({
         cookieName: 'ccm', // optional
         cookieDuration: 365, // optional
@@ -16,22 +14,25 @@ document.addEventListener('DOMContentLoaded', function() {
         services: ['googleAnalytics', 'googleMaps', 'youtube'] // required   
     });
     cookieConsent.init();
-});
+</script>
 ```
 
-### Actions
+### API methods
 ```javascript
 cookieConsent.accept('serviceName');
 cookieConsent.refuse('serviceName');
 cookieConsent.acceptAll();
 cookieConsent.clear();
+
+if (cookieConsent.isAllConfigured()) { /* all services have been accepted/refused */ }
+if (cookieConsent.isAccepted('serviceName')) { /* service is accepted */ }
 ```
 
 ### Events
-Available events : `accept`, `refuse`, `acceptAll`, `init`, `reset`
+Available events : `accept`, `refuse`, `configuredAll`, `init`, `reset`
 ```javascript
 cookieConsent.on('accept', function(service) {
-        console.log('User accepted cookies for service: ' + service)
+    console.log('User accepted cookies for service: ' + service)
 });
 ```
 
