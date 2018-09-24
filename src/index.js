@@ -41,7 +41,7 @@ class CookieConsentApi extends EventEmitter
 
         this.setCookieServices(cookieServices);
         this.updateView();
-        this.emit('configuredAll');
+        this.emit('allConfigured');
     }
 
     accept(service)
@@ -53,7 +53,7 @@ class CookieConsentApi extends EventEmitter
         this.updateView();
         this.emit('accept', service);
 
-        if (this.isAllConfigured()) this.emit('configuredAll');
+        if (this.isAllConfigured()) this.emit('allConfigured');
     }
 
     refuse(service)
@@ -65,7 +65,7 @@ class CookieConsentApi extends EventEmitter
         this.updateView();
         this.emit('refuse', service);
 
-        if (this.isAllConfigured()) this.emit('configuredAll');
+        if (this.isAllConfigured()) this.emit('allConfigured');
     }
 
     isAllConfigured()

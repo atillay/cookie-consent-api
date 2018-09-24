@@ -29,7 +29,7 @@ if (cookieConsent.isAccepted('serviceName')) { /* service is accepted */ }
 ```
 
 ### Events
-Available events : `accept`, `refuse`, `configuredAll`, `init`, `reset`
+Available events : `accept`, `refuse`, `allConfigured`, `init`, `reset`
 ```javascript
 cookieConsent.on('accept', function(service) {
     console.log('User accepted cookies for service: ' + service)
