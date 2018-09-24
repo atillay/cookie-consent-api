@@ -31,20 +31,20 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const cookieConsentApi = new CookieConsentApi({
+        const cookieConsent = new CookieConsentApi({
             services: ['googleAnalytics', 'youtube']
         });
-        cookieConsentApi.on('accept', function(service) {
+        cookieConsent.on('accept', function(service) {
             console.log('User accepted cookies for service: ' + service)
         });
-        cookieConsentApi.on('refuse', function(service) {
+        cookieConsent.on('refuse', function(service) {
             console.log('User refused cookies for service: ' + service)
         });
-        cookieConsentApi.init();
+        cookieConsent.init();
 
         // For the demo
-        cookieConsentApi.reset();
-        setTimeout(function() { cookieConsentApi.accept('youtube') }, 1000);
+        cookieConsent.reset();
+        setTimeout(function() { cookieConsent.accept('youtube') }, 1000);
     });
 </script>
 </body>

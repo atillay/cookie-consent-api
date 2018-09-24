@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
 import EventEmitter from 'events';
 
-export default class CookieConsentApi extends EventEmitter
+class CookieConsentApi extends EventEmitter
 {
     constructor(conf = {})
     {
@@ -38,10 +38,8 @@ export default class CookieConsentApi extends EventEmitter
     {
         let cookieServices = {};
         this.conf.services.forEach(service => cookieServices[service] = true);
-        Cookies.set(this.conf.cookieName, cookieServices, {
-            duration: this.conf.cookieDuration,
-            domain: this.conf.cookieDomain
-        });
+
+        this.setCookieServices(cookieServices);
         this.updateView();
         this.emit('acceptAll');
     }
@@ -50,10 +48,8 @@ export default class CookieConsentApi extends EventEmitter
     {
         let cookieServices = this.getCookieServices();
         cookieServices[service] = true;
-        Cookies.set(this.conf.cookieName, cookieServices, {
-            duration: this.conf.cookieDuration,
-            domain: this.conf.cookieDomain
-        });
+
+        this.setCookieServices(cookieServices);
         this.updateView();
         this.emit('accept', service);
     }
@@ -62,10 +58,8 @@ export default class CookieConsentApi extends EventEmitter
     {
         let cookieServices = this.getCookieServices();
         cookieServices[service] = false;
-        Cookies.set(this.conf.cookieName, cookieServices, {
-            duration: this.conf.cookieDuration,
-            domain: this.conf.cookieDomain
-        });
+
+        this.setCookieServices(cookieServices);
         this.updateView();
         this.emit('refuse', service);
     }
@@ -89,6 +83,14 @@ export default class CookieConsentApi extends EventEmitter
     getCookieServices()
     {
         return Cookies.getJSON(this.conf.cookieName) || {};
+    }
+
+    setCookieServices(cookieServices)
+    {
+        Cookies.set(this.conf.cookieName, cookieServices, {
+            duration: this.conf.cookieDuration,
+            domain: this.conf.cookieDomain
+        });
     }
 
     updateView()
@@ -127,7 +129,6 @@ export default class CookieConsentApi extends EventEmitter
         });
     }
 
-    // HACK to execute scripts
     executeScripts(elem)
     {
         const scriptsDom = elem.querySelectorAll('script');
@@ -139,3 +140,5 @@ export default class CookieConsentApi extends EventEmitter
         })
     }
 }
+
+export default CookieConsentApi;
