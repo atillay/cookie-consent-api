@@ -4,9 +4,31 @@
     <meta charset="UTF-8">
     <title>Cookie Consent API</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Style for example */
+        body { font-family: 'Helvetica', 'Arial', sans-serif }
+        .ccm-banner { display: none; background-color: #333; color: #fff; padding: 10px 15px; width: 100%; position: fixed; top: 0; left: 0; }
+        .ccm-btn { cursor: pointer; background: #ddd; border-radius: 4px; border: 0; }
+        .ccm-btn-accept { padding: 8px 10px; }
+        .ccm-btn-accept.ccm-active { background-color: green; color: #fff; }
+        .ccm-btn-refuse { padding: 8px 10px; }
+        .ccm-btn-refuse.ccm-active { background-color: red; color: #fff; }
+        .ccm-btn-close-settings { position: absolute; top: 16px; right: 16px; font-size: 30px; padding: 0 8px 3px 8px;}
+        .ccm-settings-panel { width: 100%; height: 100%; background-color: rgba(0, 0, 0, .5); position: fixed; top: 0; left: 0; z-index: 9999; display: none; }
+        .ccm-settings-panel h2 { margin: 0; }
+        .ccm-settings-panel p { margin: 1em 0; }
+        .ccm-settings-panel table { width: 100%; border-collapse: collapse; text-align: left; }
+        .ccm-settings-panel th, td { border: 1px solid #999; }
+        .ccm-settings-panel th { background-color: #333; color: #fff; padding: 12px 16px; }
+        .ccm-settings-panel td { padding: 10px 14px; }
+        .ccm-settings-panel p { margin-top: 6px; }
+        .ccm-settings-container { max-width: 600px; max-height: 100%; width: 80%; background-color: #fff; padding: 20px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        .ccm-show { display: block !important; }
+    </style>
 </head>
 <body>
 
+<!-- Youtube player example -->
 <div data-cookie-consent="youtube">
     <img src="https://img.youtube.com/vi/R4lZyXjGLRs/0.jpg" width="560" height="315">
     <!--if-consent
@@ -14,7 +36,54 @@
     endif-->
 </div>
 
+<!-- Banner example -->
+<div class="ccm-banner">
+    <span>We use cookies to provide better experience</span>
+    <button class="ccm-btn ccm-btn-accept-all">Accept all</button>
+    <button class="ccm-btn ccm-btn-open-settings">Open settings</button>
+</div>
 
+
+<!-- Settings panel example -->
+<div class="ccm-settings-panel">
+    <div class="ccm-settings-container">
+        <h2>Cookies settings</h2>
+        <p>You can accept or refuse cookies of services we use</p>
+        <button class="ccm-btn ccm-btn-close-settings">&times;</button>
+        <table class="ccm-settings-table">
+            <thead>
+            <tr>
+                <th>Cookie</th>
+                <th>Consent</th>
+            </tr>
+            </thead>
+            <tbody class="ccm-settings-table-body">
+                <tr>
+                    <td>
+                        <b>Google Analytics</b>
+                        <p>A tool to track visitors</p>
+                    </td>
+                    <td>
+                        <button class="ccm-btn ccm-btn-accept" data-ccm-accept="googleAnalytics">Yes</button>
+                        <button class="ccm-btn ccm-btn-refuse" data-ccm-refuse="googleAnalytics">No</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>Youtube</b>
+                        <p>A video website</p>
+                    </td>
+                    <td>
+                        <button class="ccm-btn ccm-btn-accept" data-ccm-accept="youtube">Yes</button>
+                        <button class="ccm-btn ccm-btn-refuse" data-ccm-refuse="youtube">No</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Google Analytics example -->
 <div data-cookie-consent="googleAnalytics">
     <!--if-consent
         <script>
@@ -24,27 +93,81 @@
             })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
             ga('create', 'UA-XXXXX-Y', 'auto');
             ga('send', 'pageview');
-            console.log('js executed');
+            console.log('Google Analytics loaded');
         </script>
     endif-->
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function()
+    {
+        // Init API
         const cookieConsent = new CookieConsentApi({
             services: ['googleAnalytics', 'youtube']
         });
-        cookieConsent.on('accept', function(service) {
-            console.log('User accepted cookies for service: ' + service)
-        });
-        cookieConsent.on('refuse', function(service) {
-            console.log('User refused cookies for service: ' + service)
-        });
-        cookieConsent.init();
 
-        // For the demo
-        cookieConsent.reset();
-        setTimeout(function() { cookieConsent.accept('youtube') }, 1000);
+        // Show banner if cookies are not all configured
+        if (!cookieConsent.isAllConfigured()) {
+            document.querySelector('.ccm-banner').classList.add('ccm-show');
+        }
+
+        // Add active class for accept and refuse buttons
+        document.querySelectorAll('.ccm-btn-accept').forEach(function(btn) {
+            if (cookieConsent.isAccepted(btn.getAttribute('data-ccm-accept'))) {
+                btn.classList.add('ccm-active');
+            }
+        });
+        document.querySelectorAll('.ccm-btn-refuse').forEach(function(btn) {
+            if (cookieConsent.isRefused(btn.getAttribute('data-ccm-refuse'))) {
+                btn.classList.add('ccm-active');
+            }
+        });
+
+        // Accept all banner button
+        document.querySelector('.ccm-btn-accept-all').addEventListener('click', function() {
+            cookieConsent.acceptAll();
+        });
+
+        // Open settings banner button
+        document.querySelector('.ccm-btn-open-settings').addEventListener('click', function() {
+            document.querySelector('.ccm-settings-panel').classList.add('ccm-show');
+        });
+
+        // Close settings panel button
+        document.querySelector('.ccm-btn-close-settings').addEventListener('click', function() {
+            document.querySelector('.ccm-settings-panel').classList.remove('ccm-show');
+        });
+
+        // Accept buttons
+        document.querySelectorAll('.ccm-btn-accept').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+               cookieConsent.accept(btn.getAttribute('data-ccm-accept'));
+            });
+        });
+
+        // Refuse buttons
+        document.querySelectorAll('.ccm-btn-refuse').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                cookieConsent.refuse(btn.getAttribute('data-ccm-refuse'));
+            });
+        });
+
+        // On accept toggle active class
+        cookieConsent.on('accept', function(service) {
+            document.querySelector('.ccm-btn-accept[data-ccm-accept="' + service + '"]').classList.add('ccm-active');
+            document.querySelector('.ccm-btn-refuse[data-ccm-refuse="' + service + '"]').classList.remove('ccm-active');
+        });
+
+        // On refuse toggle active class
+        cookieConsent.on('refuse', function(service) {
+            document.querySelector('.ccm-btn-refuse[data-ccm-refuse="' + service + '"]').classList.add('ccm-active');
+            document.querySelector('.ccm-btn-accept[data-ccm-accept="' + service + '"]').classList.remove('ccm-active');
+        });
+
+        // On allConfigured hide consent banner
+        cookieConsent.on('allConfigured', function() {
+            document.querySelector('.ccm-banner').classList.remove('ccm-show');
+        });
     });
 </script>
 </body>

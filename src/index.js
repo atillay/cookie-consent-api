@@ -19,12 +19,9 @@ class CookieConsentApi extends EventEmitter
 
         // Console log errors if conf is invalid
         this.validateConf();
-    }
 
-    init()
-    {
+        // Replace dom elements based on cookie consent value
         this.updateView();
-        this.emit('init');
     }
 
     reset()
@@ -71,16 +68,32 @@ class CookieConsentApi extends EventEmitter
     isAllConfigured()
     {
         const cookieServices = this.getCookieServices();
+        let isAllConfigured = true;
+
         this.conf.services.forEach(service => {
-            if (cookieServices[service] === undefined) return false;
+            if (cookieServices[service] === undefined) isAllConfigured = false;
         });
-        return true;
+
+        return isAllConfigured;
     }
+
+    isConfigured(service)
+    {
+        const cookieServices = this.getCookieServices();
+        return cookieServices[service] !== undefined;
+    }
+
 
     isAccepted(service)
     {
         const cookieServices = this.getCookieServices();
         return cookieServices[service] !== undefined && cookieServices[service] === true;
+    }
+
+    isRefused(service)
+    {
+        const cookieServices = this.getCookieServices();
+        return cookieServices[service] !== undefined && cookieServices[service] === false;
     }
 
     validateConf()

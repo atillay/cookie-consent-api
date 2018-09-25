@@ -13,7 +13,6 @@ Place at end of body before other scripts
         cookieDomain: 'localhost', // optional
         services: ['googleAnalytics', 'googleMaps', 'youtube'] // required   
     });
-    cookieConsent.init();
 </script>
 ```
 
@@ -22,14 +21,16 @@ Place at end of body before other scripts
 cookieConsent.accept('serviceName');
 cookieConsent.refuse('serviceName');
 cookieConsent.acceptAll();
-cookieConsent.clear();
+cookieConsent.reset();
 
-if (cookieConsent.isAllConfigured()) { /* all services have been accepted/refused */ }
+if (cookieConsent.isAllConfigured()) { /* all services are accepted/refused */ }
+if (cookieConsent.isConfigured()) { /* service is accepted/refused */ }
 if (cookieConsent.isAccepted('serviceName')) { /* service is accepted */ }
+if (cookieConsent.isRefused('serviceName')) { /* service is refused */ }
 ```
 
 ### Events
-Available events : `accept`, `refuse`, `allConfigured`, `init`, `reset`
+Available events : `accept`, `refuse`, `allConfigured`, `reset`
 ```javascript
 cookieConsent.on('accept', function(service) {
     console.log('User accepted cookies for service: ' + service)
