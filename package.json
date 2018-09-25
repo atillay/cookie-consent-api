@@ -13,7 +13,7 @@
     "type": "git",
     "url": "git+https://github.com/atillay/cookie-consent-api.git"
   },
-  "keywords": [],
+  "keywords": ["gdpr", "rgpd", "cookie", "consent"],
   "bugs": {
     "url": "https://github.com/atillay/cookie-consent-api/issues"
   },

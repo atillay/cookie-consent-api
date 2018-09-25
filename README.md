@@ -16,6 +16,8 @@ Place at end of body before other scripts
 </script>
 ```
 
+Real world example: https://github.com/atillay/cookie-consent-api/blob/master/index.html
+
 ### API methods
 ```javascript
 cookieConsent.accept('serviceName');
