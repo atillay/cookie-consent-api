@@ -1,6 +1,6 @@
 {
   "name": "cookie-consent-api",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A flexible JS API to manage cookie consent for GDPR",
   "author": "Alexandre Tillay <alex.tillay@gmail.com>",
   "license": "MIT",
@@ -13,7 +13,12 @@
     "type": "git",
     "url": "git+https://github.com/atillay/cookie-consent-api.git"
   },
-  "keywords": ["gdpr", "rgpd", "cookie", "consent"],
+  "keywords": [
+    "gdpr",
+    "rgpd",
+    "cookie",
+    "consent"
+  ],
   "bugs": {
     "url": "https://github.com/atillay/cookie-consent-api/issues"
   },

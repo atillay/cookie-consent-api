@@ -16,7 +16,7 @@ Place at end of body before other scripts
 </script>
 ```
 
-Real world example: https://github.com/atillay/cookie-consent-api/blob/master/index.html
+Also available on NPM : `$ npm install cookie-consent-api`
 
 ### API methods
 ```javascript

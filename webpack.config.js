@@ -31,13 +31,11 @@ module.exports = {
 
     plugins: isProd
         ? [
-            new MinifyPlugin({}, {comments: false})
+            new MinifyPlugin({}, {comments: false}),
+            new HTMLWebpackPlugin({template: path.resolve(__dirname, 'index.html'), filename: 'demo.html'})
         ]
         : [
-            new HTMLWebpackPlugin({
-                template: path.resolve(__dirname, 'index.html'),
-                filename: 'index.html'
-            })
+            new HTMLWebpackPlugin({template: path.resolve(__dirname, 'index.html'), filename: 'index.html'})
         ]
     ,
 
@@ -46,5 +44,5 @@ module.exports = {
         port: 3000
     },
 
-    devtool: isProd ? '' : 'cheap-module-eval-source-map'
+    devtool: isProd ? false : 'cheap-module-eval-source-map'
 };
