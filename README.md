@@ -1,5 +1,6 @@
 # cookie-consent-api
-A flexible JS API to manage cookie consent for GDPR
+A flexible JS API to manage cookie consent for GDPR  
+DEMO: https://cookie-consent-api.atly.fr
 > This is a work in progress, it has not been tested in production
 
 ### Usage
@@ -26,7 +27,7 @@ cookieConsent.acceptAll();
 cookieConsent.reset();
 
 if (cookieConsent.isAllConfigured()) { /* all services are accepted/refused */ }
-if (cookieConsent.isConfigured()) { /* service is accepted/refused */ }
+if (cookieConsent.isConfigured('serviceName')) { /* service is accepted/refused */ }
 if (cookieConsent.isAccepted('serviceName')) { /* service is accepted */ }
 if (cookieConsent.isRefused('serviceName')) { /* service is refused */ }
 ```
