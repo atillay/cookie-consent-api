@@ -15,39 +15,39 @@ class CookieConsentApi extends EventEmitter
         };
 
         // Merge default config with user config
-        this.conf = Object.assign({}, defaultConf, conf);
+        this._conf = Object.assign({}, defaultConf, conf);
 
         // Console log errors if conf is invalid
-        this.validateConf();
+        this._validateConf();
 
         // Replace dom elements based on cookie consent value
-        this.updateView();
+        this._updateView();
     }
 
     reset()
     {
-        Cookies.remove(this.conf.cookieName, {domain: this.conf.cookieDomain});
-        this.updateView();
+        Cookies.remove(this._conf.cookieName, {domain: this._conf.cookieDomain});
+        this._updateView();
         this.emit('clear');
     }
 
     acceptAll()
     {
         let cookieServices = {};
-        this.conf.services.forEach(service => cookieServices[service] = true);
+        this._conf.services.forEach(service => cookieServices[service] = true);
 
-        this.setCookieServices(cookieServices);
-        this.updateView();
+        this._setCookieServices(cookieServices);
+        this._updateView();
         this.emit('allConfigured');
     }
 
     accept(service)
     {
-        let cookieServices = this.getCookieServices();
+        let cookieServices = this._getCookieServices();
         cookieServices[service] = true;
 
-        this.setCookieServices(cookieServices);
-        this.updateView();
+        this._setCookieServices(cookieServices);
+        this._updateView();
         this.emit('accept', service);
 
         if (this.isAllConfigured()) this.emit('allConfigured');
@@ -55,11 +55,11 @@ class CookieConsentApi extends EventEmitter
 
     refuse(service)
     {
-        let cookieServices = this.getCookieServices();
+        let cookieServices = this._getCookieServices();
         cookieServices[service] = false;
 
-        this.setCookieServices(cookieServices);
-        this.updateView();
+        this._setCookieServices(cookieServices);
+        this._updateView();
         this.emit('refuse', service);
 
         if (this.isAllConfigured()) this.emit('allConfigured');
@@ -67,10 +67,10 @@ class CookieConsentApi extends EventEmitter
 
     isAllConfigured()
     {
-        const cookieServices = this.getCookieServices();
+        const cookieServices = this._getCookieServices();
         let isAllConfigured = true;
 
-        this.conf.services.forEach(service => {
+        this._conf.services.forEach(service => {
             if (cookieServices[service] === undefined) isAllConfigured = false;
         });
 
@@ -79,31 +79,48 @@ class CookieConsentApi extends EventEmitter
 
     isConfigured(service)
     {
-        const cookieServices = this.getCookieServices();
+        const cookieServices = this._getCookieServices();
         return cookieServices[service] !== undefined;
     }
-
-
+    
     isAccepted(service)
     {
-        const cookieServices = this.getCookieServices();
+        const cookieServices = this._getCookieServices();
         return cookieServices[service] !== undefined && cookieServices[service] === true;
     }
 
     isRefused(service)
     {
-        const cookieServices = this.getCookieServices();
+        const cookieServices = this._getCookieServices();
         return cookieServices[service] !== undefined && cookieServices[service] === false;
     }
 
-    validateConf()
+    getServices()
+    {
+        return this._conf.services;
+    }
+
+    _getCookieServices()
+    {
+        return Cookies.getJSON(this._conf.cookieName) || {};
+    }
+
+    _setCookieServices(cookieServices)
+    {
+        Cookies.set(this._conf.cookieName, cookieServices, {
+            duration: this._conf.cookieDuration,
+            domain: this._conf.cookieDomain
+        });
+    }
+
+    _validateConf()
     {
         // Services
-        if (!Array.isArray(this.conf.services)) {
+        if (!Array.isArray(this._conf.services)) {
             console.error('CCM: Services is not an array')
         }
         else {
-            this.conf.services.forEach(service => {
+            this._conf.services.forEach(service => {
                 if (/^[a-zA-Z0-9]+$/.test(service) === false) {
                     console.error('CCM: "' + service + '" is not a valid service name, only alphanumeric allowed');
                 }
@@ -111,29 +128,11 @@ class CookieConsentApi extends EventEmitter
         }
     }
 
-    getServices()
+    _updateView()
     {
-        return this.conf.services;
-    }
+        const cookieServices = this._getCookieServices();
 
-    getCookieServices()
-    {
-        return Cookies.getJSON(this.conf.cookieName) || {};
-    }
-
-    setCookieServices(cookieServices)
-    {
-        Cookies.set(this.conf.cookieName, cookieServices, {
-            duration: this.conf.cookieDuration,
-            domain: this.conf.cookieDomain
-        });
-    }
-
-    updateView()
-    {
-        const cookieServices = this.getCookieServices();
-
-        this.conf.services.forEach(service => {
+        this._conf.services.forEach(service => {
 
             const elems = document.querySelectorAll('[data-cookie-consent="' + service + '"]');
 
@@ -146,7 +145,7 @@ class CookieConsentApi extends EventEmitter
                     var match = elem.innerHTML.match(new RegExp('\<\!--if-consent(.*?)endif--\>', 's'));
                     if (match && match.length == 2) {
                         elem.innerHTML = match[1];
-                        this.executeScripts(elem);
+                        this._executeScripts(elem);
                     }
                 })
             }
@@ -157,7 +156,7 @@ class CookieConsentApi extends EventEmitter
                     let fallbackContent = elem.getAttribute('data-ccm-fallback');
                     if (fallbackContent) {
                         elem.innerHTML = fallbackContent;
-                        this.executeScripts(elem);
+                        this._executeScripts(elem);
                     }
                 });
             }
@@ -165,7 +164,7 @@ class CookieConsentApi extends EventEmitter
         });
     }
 
-    executeScripts(elem)
+    _executeScripts(elem)
     {
         const scriptsDom = elem.querySelectorAll('script');
         scriptsDom.forEach(function(scriptDom) {
