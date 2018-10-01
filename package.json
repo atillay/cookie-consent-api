@@ -1,6 +1,6 @@
 {
   "name": "cookie-consent-api",
-  "version": "1.0.2",
+  "version": "1.0.1",
   "description": "A flexible JS API to manage cookie consent for GDPR",
   "author": "Alexandre Tillay <alex.tillay@gmail.com>",
   "license": "MIT",
