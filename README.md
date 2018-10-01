@@ -20,16 +20,22 @@ Place at end of body before other scripts
 Also available on NPM : `$ npm install cookie-consent-api`
 
 ### API methods
-```javascript
-cookieConsent.accept('serviceName');
-cookieConsent.refuse('serviceName');
-cookieConsent.acceptAll();
-cookieConsent.reset();
 
-if (cookieConsent.isAllConfigured()) { /* all services are accepted/refused */ }
-if (cookieConsent.isConfigured('serviceName')) { /* service is accepted/refused */ }
-if (cookieConsent.isAccepted('serviceName')) { /* service is accepted */ }
-if (cookieConsent.isRefused('serviceName')) { /* service is refused */ }
+**Setters**
+```javascript
+cookieConsent.accept('serviceName'); /* accept a service */
+cookieConsent.refuse('serviceName'); /* refuse a service */
+cookieConsent.acceptAll(); /* accept all services */
+cookieConsent.reset(); /* reset cookie settings */
+```
+
+**Getters**
+```javascript
+cookieConsent.isAllConfigured(); /* all services are accepted/refused */ 
+cookieConsent.isConfigured('serviceName'); /* service is accepted/refused */ 
+cookieConsent.isAccepted('serviceName'); /* service is accepted */ 
+cookieConsent.isRefused('serviceName'); /* service is refused */ 
+cookieConsent.getServices(); /* returns services array from config */
 ```
 
 ### Events

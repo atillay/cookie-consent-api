@@ -111,6 +111,11 @@ class CookieConsentApi extends EventEmitter
         }
     }
 
+    getServices()
+    {
+        return this.conf.services;
+    }
+
     getCookieServices()
     {
         return Cookies.getJSON(this.conf.cookieName) || {};
