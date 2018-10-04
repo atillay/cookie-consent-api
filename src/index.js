@@ -8,7 +8,7 @@ class CookieConsentApi extends EventEmitter
         super();
 
         const defaultConf = {
-            cookieName: 'ccm',
+            cookieName: 'cookie_consent_settings',
             cookieDuration: 365,
             cookieDomain: null,
             services: []

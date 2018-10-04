@@ -9,7 +9,7 @@ Place at end of body before other scripts
 <script src="./cookie-consent-api.js"></script>
 <script>
     const cookieConsent = new CookieConsentApi({
-        cookieName: 'ccm', // optional
+        cookieName: 'cookie_consent_settings', // optional
         cookieDuration: 365, // optional
         cookieDomain: 'localhost', // optional
         services: ['googleAnalytics', 'googleMaps', 'youtube'] // required   
@@ -21,29 +21,29 @@ Also available on NPM : `$ npm install cookie-consent-api`
 
 ### API methods
 
-**Setters**
-```javascript
-cookieConsent.accept('serviceName'); /* accept a service */
-cookieConsent.refuse('serviceName'); /* refuse a service */
-cookieConsent.acceptAll(); /* accept all services */
-cookieConsent.reset(); /* reset cookie settings */
-```
-
 **Getters**
 ```javascript
-cookieConsent.isAllConfigured(); /* all services are accepted/refused */ 
-cookieConsent.isConfigured('serviceName'); /* service is accepted/refused */ 
+cookieConsent.isAllConfigured(); /* all services are accepted or refused */ 
+cookieConsent.isConfigured('serviceName'); /* service is accepted or refused */ 
 cookieConsent.isAccepted('serviceName'); /* service is accepted */ 
 cookieConsent.isRefused('serviceName'); /* service is refused */ 
 cookieConsent.getServices(); /* returns services array from config */
 ```
 
-### Events
-Available events : `accept`, `refuse`, `allConfigured`, `reset`
+**Setters**
 ```javascript
-cookieConsent.on('accept', function(service) {
-    console.log('User accepted cookies for service: ' + service)
-});
+cookieConsent.accept('serviceName'); /* accept a service */
+cookieConsent.refuse('serviceName'); /* refuse a service */
+cookieConsent.acceptAll(); /* accept all services */
+cookieConsent.reset(); /* delete consent cookie */
+```
+
+**Events**
+```javascript
+cookieConsent.on('accept', function(service) { /* a service is accepted */ });
+cookieConsent.on('refuse', function(service) { /* a service is refused */ });
+cookieConsent.on('allConfigured', function() { /* all services configured */ });
+cookieConsent.on('reset', function() { /* consent cookie deleted */ });
 ```
 
 ### Automatic content switch if consent
