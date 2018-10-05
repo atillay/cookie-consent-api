@@ -118,8 +118,10 @@
         });
 
         // Action : open settings panel
-        document.querySelector('.cookie-consent-btn-open-settings').addEventListener('click', function() {
-            document.querySelector('.cookie-consent-settings-panel').classList.add('show');
+        document.querySelectorAll('.cookie-consent-btn-open-settings').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                document.querySelector('.cookie-consent-settings-panel').classList.add('show');
+            });
         });
 
         // Action : close settings panel
