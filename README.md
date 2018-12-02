@@ -1,7 +1,7 @@
 # cookie-consent-api
 A flexible JS API to manage cookie consent for GDPR.  
 The main idea is to easily enable or disable content on your app based on user consent.  
-**Demo**: https://cookie-consent-api.atly.fr
+**Demo**: https://cookie-consent-api.alty.fr
 > This is a work in progress, it has not been tested in production
 
 Available on NPM : `$ npm install cookie-consent-api`
