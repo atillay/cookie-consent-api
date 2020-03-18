@@ -4,7 +4,7 @@ The main idea is to easily enable or disable content on your app based on user c
 **Demo**: https://cookie-consent-api.alty.fr
 > This is a work in progress, it has not been tested in production
 
-Available on NPM : `$ npm install cookie-consent-api`
+Available on NPM : `$ npm install @atillay/cookie-consent-api`
 
 ### Usage
 Place at end of body before other scripts
