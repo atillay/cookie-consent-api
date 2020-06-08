@@ -142,8 +142,8 @@ class CookieConsentApi extends EventEmitter
                     if (!elem.getAttribute('data-ccm-fallback')) {
                         elem.setAttribute('data-ccm-fallback', elem.innerHTML);
                     }
-                    var match = elem.innerHTML.match(new RegExp('\<\!--if-consent(.*?)endif--\>', 's'));
-                    if (match && match.length == 2) {
+                    const match = /<!--if-consent([^]+)endif-->/g.exec(elem.innerHTML);
+                    if (match && match.length === 2) {
                         elem.innerHTML = match[1];
                         this._executeScripts(elem);
                     }
