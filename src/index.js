@@ -108,7 +108,7 @@ class CookieConsentApi extends EventEmitter
     _setCookieServices(cookieServices)
     {
         Cookies.set(this._conf.cookieName, cookieServices, {
-            duration: this._conf.cookieDuration,
+            expires: this._conf.cookieDuration,
             domain: this._conf.cookieDomain
         });
     }
