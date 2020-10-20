@@ -60,6 +60,7 @@ cookieConsent.getServices(); /* returns services array from config */
 cookieConsent.accept('serviceName'); /* accept a service */
 cookieConsent.refuse('serviceName'); /* refuse a service */
 cookieConsent.acceptAll(); /* accept all services */
+cookieConsent.refuseAll(); /* refuse all services */
 cookieConsent.reset(); /* delete consent cookie */
 ```
 

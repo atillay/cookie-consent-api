@@ -65,6 +65,16 @@ class CookieConsentApi extends EventEmitter
         if (this.isAllConfigured()) this.emit('allConfigured');
     }
 
+    refuseAll()
+    {
+        let cookieServices = {};
+        this._conf.services.forEach(service => cookieServices[service] = false);
+
+        this._setCookieServices(cookieServices);
+        this._updateView();
+        this.emit('allConfigured')
+    }
+
     isAllConfigured()
     {
         const cookieServices = this._getCookieServices();

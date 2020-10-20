@@ -8,8 +8,10 @@
         /* Style for example */
         body { font-family: 'Helvetica', 'Arial', sans-serif }
         button { cursor: pointer; background: #ddd; border-radius: 4px; border: 0;  }
-        .cookie-consent-banner { display: none; background-color: #333; color: #fff; padding: 10px 15px; width: 100%; position: fixed; top: 0; left: 0; }
+        .cookie-consent-banner { display: none; background-color: #333; color: #fff; width: 100%; position: fixed; top: 0; left: 0; }
         .cookie-consent-banner.show { display: block; }
+        .cookie-consent-banner-content { display: flex; padding: 10px 15px; }
+        .cookie-consent-actions { margin-left: auto; }
         .cookie-consent-btn-accept { padding: 8px 10px; }
         .cookie-consent-btn-accept.active { background-color: green; color: #fff; }
         .cookie-consent-btn-refuse { padding: 8px 10px; }
@@ -40,9 +42,14 @@
 
 <!-- Banner example -->
 <div class="cookie-consent-banner">
-    <span>We use cookies to provide better experience</span>
-    <button class="cookie-consent-btn-accept-all">Accept all</button>
-    <button class="cookie-consent-btn-open-settings">Open settings</button>
+    <div class="cookie-consent-banner-content">
+        <span>We use cookies to provide better experience</span>
+        <div class="cookie-consent-actions">
+            <button class="cookie-consent-btn-accept-all">Accept all</button>
+            <button class="cookie-consent-btn-refuse-all">Refuse all</button>
+            <button class="cookie-consent-btn-open-settings">Open settings</button>
+        </div>
+    </div>
 </div>
 
 <!-- Settings panel example -->
@@ -140,6 +147,19 @@
                 elem.classList.add('active');
             });
         });
+
+        // Action : refuse all services
+        document.querySelector('.cookie-consent-btn-refuse-all').addEventListener('click', function() {
+            cookieConsent.refuseAll();
+
+            document.querySelectorAll('.cookie-consent-btn-refuse').forEach(function(elem) {
+                elem.classList.add('active');
+            });
+            document.querySelectorAll('.cookie-consent-btn-accept').forEach(function(elem) {
+                elem.classList.remove('active');
+            });
+        });
+
 
         // Settings panel
         document.querySelectorAll('.cookie-consent-settings-panel [data-service]').forEach(function(elem) {
