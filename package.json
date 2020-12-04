@@ -24,8 +24,8 @@
   },
   "homepage": "https://github.com/atillay/cookie-consent-api#readme",
   "dependencies": {
-    "events": "^3.0.0",
-    "js-cookie": "^2.2.0"
+    "events": "^3.2.0",
+    "js-cookie": "^2.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.10.0",

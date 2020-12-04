@@ -46,6 +46,7 @@ module.exports = {
 
     devServer: {
         open: true,
+        disableHostCheck: true,
         port: 3000
     },
 
