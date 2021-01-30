@@ -3,6 +3,7 @@ A flexible JS API to manage cookie consent for GDPR.
 The main idea is to easily enable or disable content on your app based on user consent.  
 **Demo**: https://cookie-consent-api.alty.fr
 > This is a work in progress, it has not been tested in production
+
 > I would not recommend to put Google Analytics in the consent otherwise you will loose all stats for visitors that don't accept cookies
 
 Available on NPM : `$ npm install @atillay/cookie-consent-api`
